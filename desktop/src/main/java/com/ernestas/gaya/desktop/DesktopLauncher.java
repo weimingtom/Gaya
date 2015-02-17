@@ -2,8 +2,8 @@ package com.ernestas.gaya.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.gaya.gaya.GayaEntry;
-import com.gaya.gaya.Util.Settings;
+import com.ernestas.gaya.GayaEntry;
+import com.ernestas.gaya.Util.Settings;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
