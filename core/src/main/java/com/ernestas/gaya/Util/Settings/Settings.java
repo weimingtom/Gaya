@@ -1,10 +1,7 @@
-package com.ernestas.gaya.Util;
+package com.ernestas.gaya.Util.Settings;
 
 public class Settings {
-
-    private int width;
-    private int height;
-
+    /********************************************************/
     private static Settings instance = null;
 
     private Settings() {}
@@ -15,6 +12,15 @@ public class Settings {
         }
         return instance;
     }
+
+    public static void reset() {
+        instance = null;
+    }
+    /********************************************************/
+
+
+    private int width;
+    private int height;
 
 
     public int getWidth() {
