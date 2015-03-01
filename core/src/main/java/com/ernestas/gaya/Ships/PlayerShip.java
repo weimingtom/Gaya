@@ -2,7 +2,9 @@ package com.ernestas.gaya.Ships;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.ernestas.gaya.Input.InputProcessor;
+import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
 
 public class PlayerShip extends Ship {
@@ -11,15 +13,19 @@ public class PlayerShip extends Ship {
     private int health;
     private float speed;
 
+    private Rectangle flyBounds;
+
     public PlayerShip() {
         super(new Vector2f(100, 100));
         this.health = 3;
         this.speed = 150f;
+        this.flyBounds = new Rectangle(0, 0, Settings.getInstance().getWidth(), Settings.getInstance().getHeight());
     }
 
     public PlayerShip(Sprite sprite) {
         this();
         this.sprite = sprite;
+        setBounds(sprite.getBoundingRectangle());
     }
 
     public Sprite getSprite() {
@@ -45,8 +51,28 @@ public class PlayerShip extends Ship {
             vecY += -1;
         }
 
-        setPosition(getPosition().x + vecX * speed * delta,
-            getPosition().y + vecY * speed * delta);
+        if (vecX != 0)
+            move(vecX, 0, delta);
+        if (vecY != 0)
+            move(0, vecY, delta);
+
     }
+
+    private void move(float vecX, float vecY, float delta) {
+        float x = getPosition().x + vecX * speed * delta;
+        float y = getPosition().y + vecY * speed * delta;
+
+        float boX = bounds.width / 2;
+        float boY = bounds.height / 2;
+
+        if (x - boX >= 0 && x + boX <= Settings.getInstance().getWidth() &&
+            y - boY >= 0 && y + boY <= Settings.getInstance().getHeight()) {
+
+            setPosition(x, y);
+        }
+    }
+
+    public Rectangle getFlyBounds() { return flyBounds; }
+    public void setFlyBounds(Rectangle flyBounds) { this.flyBounds = flyBounds; }
 
 }

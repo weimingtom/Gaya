@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class ResourceLoader {
 
     public enum ResourceId {
-        splash, background, shipPlayer
+        splash, background, cloud, shipPlayer
     }
 
     ResourcesPather pather;
@@ -29,6 +29,7 @@ public class ResourceLoader {
         try {
             loadResource(ResourceId.splash, pather.splash);
             loadResource(ResourceId.background, pather.background);
+            loadResource(ResourceId.cloud, pather.cloud);
             loadResource(ResourceId.shipPlayer, pather.shipPlayer);
 
             loaded = true;
@@ -46,7 +47,7 @@ public class ResourceLoader {
     }
 
     public Sprite getResource(ResourceId id) {
-        if (loaded = false) {
+        if (loaded == false) {
             return null;
         }
 

@@ -5,6 +5,7 @@ public class ResourcesPather {
     // Images
     public String splash;
     public String background;
+    public String cloud;
 
     // Ships
     public String shipPlayer;
@@ -21,6 +22,7 @@ public class ResourcesPather {
 
         resourcesPather.splash = defaultPath + "splash.png";
         resourcesPather.background = defaultPath + "desert-background-looped.png";
+        resourcesPather.cloud = defaultPath + "clouds-transparent.png";
         resourcesPather.shipPlayer = defaultPath + "spaceship32.png";
 
         return resourcesPather;

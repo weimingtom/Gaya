@@ -30,6 +30,7 @@ public abstract class Ship implements Printable {
 
     public void setPosition(Vector2f position) {
         this.position = position;
+        setBounds(position.x - bounds.width / 2, position.y - bounds.height / 2, bounds.width, bounds.height);
     }
 
     public void setBounds(float x, float y, float width, float height) {
