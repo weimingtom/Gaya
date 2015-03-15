@@ -1,6 +1,9 @@
 package com.ernestas.gaya.Util.Settings;
 
 public class Settings {
+    public static final int DEFAULT_WIDTH = 320;
+    public static final int DEFAULT_HEIGHT = 480;
+
     /********************************************************/
     private static Settings instance = null;
 
@@ -21,7 +24,7 @@ public class Settings {
 
     private int width;
     private int height;
-
+    private float scale;
 
     public int getWidth() {
         return width;
@@ -35,4 +38,11 @@ public class Settings {
     public void setHeight(int height) {
         this.height = height;
     }
+    public float getScale() {
+        return scale;
+    }
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
 }

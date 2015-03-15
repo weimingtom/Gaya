@@ -13,6 +13,9 @@ import java.util.Random;
 
 public class LoopedBackground {
 
+    private int debugTick = 0;
+
+    //TODO: Make a container of Backgrounds in case background.height < screen.height / 2
     private Background background;
     private Background backgroundLoop;
 
@@ -24,7 +27,7 @@ public class LoopedBackground {
         this.background = background;
         this.backgroundLoop = new Background(background);
         this.cloudsEnabled = cloudsEnabled;
-        this.backgroundLoop.setPosition(background.getSprite().getX(), background.getSprite().getY() + background.getSprite().getHeight());
+        this.backgroundLoop.setPosition(background.getSprite().getX(), background.getSprite().getY() + background.getSprite().getHeight()* background.getSprite().getScaleY());
     }
 
     public LoopedBackground(Sprite sprite, float speed, boolean cloudsEnabled) {
@@ -39,9 +42,20 @@ public class LoopedBackground {
         background.update(delta);
         backgroundLoop.update(delta);
 
-        if (background.getSprite().getY() + background.getSprite().getHeight() < 0) {
+//        System.out.println("height: " + background.getSprite().getHeight()* background.getSprite().getScaleY());
+        Sprite bgSprite = background.getSprite();
+
+        if (bgSprite.getY() + bgSprite.getHeight() * bgSprite.getScaleY() < 0) {
             background.setPosition(backgroundLoop.getSprite().getX(), backgroundLoop.getSprite().getY());
-            backgroundLoop.setPosition(background.getSprite().getX(), background.getSprite().getY() + background.getSprite().getHeight());
+            backgroundLoop.setPosition(background.getSprite().getX(), background.getSprite().getY() + background.getSprite().getHeight() * bgSprite.getScaleY());
+        }
+
+        debugTick++;
+        if (debugTick > 30) {
+            debugTick = 0;
+            System.out.println("bg --> " + background.getSprite().getY());
+            System.out.println("bgLoop --> " + backgroundLoop.getSprite().getY());
+            System.out.println("height --> " + background.getSprite().getHeight() * background.getSprite().getScaleY());
         }
 
     }
@@ -56,6 +70,7 @@ public class LoopedBackground {
             }
         }
 
+        // TODO: Make a method for adding clouds
         Random r = new Random();
         float lastY = clouds.size() > 0 ? clouds.get(clouds.size() - 1).getY() : 0;
         while (lastY < Settings.getInstance().getHeight()) {

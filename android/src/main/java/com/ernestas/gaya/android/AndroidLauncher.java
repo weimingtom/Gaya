@@ -8,17 +8,20 @@ import com.ernestas.gaya.GayaEntry;
 import com.ernestas.gaya.Util.Settings.Settings;
 
 public class AndroidLauncher extends AndroidApplication {
+    private static final float SCALE = 1f;
+
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
+        super.onCreate(savedInstanceState);
+        AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
         //this.getWindow().getWindowManager().getDefaultDisplay().
 
 
-        double scale = 1.0;
-        Settings.getInstance().setWidth((int) (320 * scale));
-        Settings.getInstance().setHeight((int) (480 * scale));
+
+        Settings.getInstance().setScale(SCALE);
+        Settings.getInstance().setWidth((int) (Settings.DEFAULT_WIDTH * SCALE));
+        Settings.getInstance().setHeight((int) (Settings.DEFAULT_HEIGHT * SCALE));
 
 
 //        config.resizable = false;

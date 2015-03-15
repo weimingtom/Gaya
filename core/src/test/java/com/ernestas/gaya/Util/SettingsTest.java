@@ -31,5 +31,7 @@ public class SettingsTest {
 
         assertThat(settings.getWidth(), is(100));
         assertThat(settings.getHeight(), is(200));
+
+        Settings.reset();
     }
 }

@@ -3,13 +3,14 @@ package com.ernestas.gaya.ResourceLoaders;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.ernestas.gaya.Util.Settings.Settings;
 
 import java.util.HashMap;
 
 public class ResourceLoader {
 
     public enum ResourceId {
-        splash, background, cloud, shipPlayer
+        splash, background, cloud, shipPlayer, shipEnemy
     }
 
     ResourcesPather pather;
@@ -31,6 +32,7 @@ public class ResourceLoader {
             loadResource(ResourceId.background, pather.background);
             loadResource(ResourceId.cloud, pather.cloud);
             loadResource(ResourceId.shipPlayer, pather.shipPlayer);
+            loadResource(ResourceId.shipEnemy, pather.shipEnemy);
 
             loaded = true;
         } catch(Exception e) {
@@ -43,7 +45,14 @@ public class ResourceLoader {
         Texture texture = new Texture(path);
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Sprite sprite = new Sprite(texture);
+        scaleSprite(sprite, Settings.getInstance().getScale());
         spriteMap.put(id, sprite);
+    }
+
+    private void scaleSprite(Sprite sprite, float scale) {
+//        sprite.setOriginCenter();
+        sprite.setOrigin(0, 0);
+        sprite.setScale(scale);
     }
 
     public Sprite getResource(ResourceId id) {

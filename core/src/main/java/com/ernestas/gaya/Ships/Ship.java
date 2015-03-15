@@ -15,13 +15,12 @@ public abstract class Ship implements Printable {
     */
 
     public Ship() {
-        this.position = new Vector2f();
-        this.bounds = new Rectangle(0, 0, 0, 0);
+        this(new Vector2f());
     }
 
     public Ship(Vector2f position) {
-        this();
         this.position = position;
+        this.bounds = new Rectangle(0, 0, 0, 0);
     }
 
     public void setPosition(float x, float y) {
@@ -46,7 +45,12 @@ public abstract class Ship implements Printable {
 
     // Final, because we don't want out children to override this method
     public final void println() {
-        System.out.println(this.getClass() + " position:["  + position.toString() + "] bounds:[" + bounds.toString() + "]");
+        System.out.println(this.toString());
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass() + " position:["  + position.toString() + "] bounds:[" + bounds.toString() + "]";
     }
 
 }

@@ -9,27 +9,28 @@ import com.ernestas.gaya.Util.Vectors.Vector2f;
 
 public class PlayerShip extends Ship {
 
-    private Sprite sprite;
-    private int health;
-    private float speed;
+    private static final int DEFAULT_HEALTH = 3;
+    private static final float DEFAULT_SPEED = 150f;
 
-    private Rectangle flyBounds;
+    private Sprite sprite = null;
+    private int health = DEFAULT_HEALTH;
+    private float speed = DEFAULT_SPEED;
 
-    public PlayerShip() {
-        super(new Vector2f(100, 100));
-        this.health = 3;
-        this.speed = 150f;
-        this.flyBounds = new Rectangle(0, 0, Settings.getInstance().getWidth(), Settings.getInstance().getHeight());
+    public PlayerShip(Vector2f position) {
+        super(position);
     }
 
-    public PlayerShip(Sprite sprite) {
-        this();
+    public PlayerShip(Sprite sprite, Vector2f position) {
+        this(position);
         this.sprite = sprite;
         setBounds(sprite.getBoundingRectangle());
+        setPosition(getPosition());
     }
 
     public Sprite getSprite() {
-        sprite.setPosition(position.x - bounds.getWidth() / 2, position.y - bounds.getHeight() / 2);
+        if (sprite != null) {
+            sprite.setPosition(position.x - bounds.getWidth() / 2, position.y - bounds.getHeight() / 2);
+        }
         return sprite;
     }
 
@@ -71,8 +72,5 @@ public class PlayerShip extends Ship {
             setPosition(x, y);
         }
     }
-
-    public Rectangle getFlyBounds() { return flyBounds; }
-    public void setFlyBounds(Rectangle flyBounds) { this.flyBounds = flyBounds; }
 
 }
