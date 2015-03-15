@@ -23,6 +23,6 @@ public class DesktopLauncher {
         config.resizable = false;
 //        config.useGL30 = true; // Use GL30 for performance improvement
 
-        new LwjglApplication(new GayaEntry(), config);
+        new LwjglApplication(new GayaEntry(GayaEntry.DESKTOP), config);
 	}
 }

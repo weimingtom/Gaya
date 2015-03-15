@@ -21,7 +21,7 @@ public class PlayScreen implements Screen {
         this.gaya = gaya;
 
         batch = new SpriteBatch();
-        input = new InputProcessor();
+        input = gaya.getInputProcessor();
         level = new Level(gaya, input);
     }
 

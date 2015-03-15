@@ -1,6 +1,7 @@
 package com.ernestas.gaya.Input;
 
 import com.badlogic.gdx.Input;
+import com.ernestas.gaya.Util.Settings.Settings;
 
 public class InputProcessor implements com.badlogic.gdx.InputProcessor {
 
@@ -10,7 +11,10 @@ public class InputProcessor implements com.badlogic.gdx.InputProcessor {
 
     private int keys[] = new int[256];
 
-    public InputProcessor() {
+    boolean isAndroid = false;
+
+    public InputProcessor(boolean isAndroid) {
+        this.isAndroid = isAndroid;
         for (int i = 0; i < keys.length; ++i) {
             keys[i] = KEY_UP;
         }
@@ -35,16 +39,62 @@ public class InputProcessor implements com.badlogic.gdx.InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (isAndroid) {
+            if (screenX < Settings.getInstance().getWidth() / 2) {
+                if (keys[Input.Keys.A] == KEY_UP) {
+                    keys[Input.Keys.A] = KEY_PRESSED;
+                } else {
+                    keys[Input.Keys.A] = KEY_HOLD;
+                }
+                keys[Input.Keys.D] = KEY_UP;
+            } else {
+                if (keys[Input.Keys.D] == KEY_UP) {
+                    keys[Input.Keys.D] = KEY_PRESSED;
+                } else {
+                    keys[Input.Keys.D] = KEY_HOLD;
+                }
+                keys[Input.Keys.A] = KEY_UP;
+            }
+
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (isAndroid) {
+            keys[Input.Keys.A] = KEY_UP;
+            keys[Input.Keys.D] = KEY_UP;
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (isAndroid) {
+            if (screenX < Settings.getInstance().getWidth() / 2) {
+                if (keys[Input.Keys.A] == KEY_UP) {
+                    keys[Input.Keys.A] = KEY_PRESSED;
+                } else {
+                    keys[Input.Keys.A] = KEY_HOLD;
+                }
+                keys[Input.Keys.D] = KEY_UP;
+            } else {
+                if (keys[Input.Keys.D] == KEY_UP) {
+                    keys[Input.Keys.D] = KEY_PRESSED;
+                } else {
+                    keys[Input.Keys.D] = KEY_HOLD;
+                }
+                keys[Input.Keys.A] = KEY_UP;
+            }
+
+            return true;
+        }
+
         return false;
     }
 

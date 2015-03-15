@@ -7,31 +7,41 @@ import com.ernestas.gaya.Util.Settings.GameSettings;
 import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class LoopedBackground {
-
-    private int debugTick = 0;
-
-    //TODO: Make a container of Backgrounds in case background.height < screen.height / 2
     private Background background;
-    private Background backgroundLoop;
 
+    private Queue<Background> bgs = new LinkedList<Background>();
     private List<BgCloud> clouds = new ArrayList<BgCloud>();
     private final float cloudSpeed = 50f;
     private boolean cloudsEnabled;
 
     public LoopedBackground(Background background, boolean cloudsEnabled) {
         this.background = background;
-        this.backgroundLoop = new Background(background);
         this.cloudsEnabled = cloudsEnabled;
-        this.backgroundLoop.setPosition(background.getSprite().getX(), background.getSprite().getY() + background.getSprite().getHeight()* background.getSprite().getScaleY());
+        init();
     }
 
     public LoopedBackground(Sprite sprite, float speed, boolean cloudsEnabled) {
         this(new Background(sprite, 0, speed), cloudsEnabled);
+    }
+
+    private void init() {
+        float posX = 0;
+        float posY = 0;
+        while(true) {
+            Background bg = new Background(background);
+            bg.setPosition(posX, posY);
+            bgs.add(bg);
+
+            posX = left(bg);
+            posY = top(bg);
+
+            if (bottom(bg) > Settings.getInstance().getHeight()) {
+                break;
+            }
+        }
     }
 
     public void update(float delta) {
@@ -39,23 +49,15 @@ public class LoopedBackground {
             updateClouds(delta);
         }
 
-        background.update(delta);
-        backgroundLoop.update(delta);
-
-//        System.out.println("height: " + background.getSprite().getHeight()* background.getSprite().getScaleY());
-        Sprite bgSprite = background.getSprite();
-
-        if (bgSprite.getY() + bgSprite.getHeight() * bgSprite.getScaleY() < 0) {
-            background.setPosition(backgroundLoop.getSprite().getX(), backgroundLoop.getSprite().getY());
-            backgroundLoop.setPosition(background.getSprite().getX(), background.getSprite().getY() + background.getSprite().getHeight() * bgSprite.getScaleY());
+        for (Background bg : bgs) {
+            bg.update(delta);
         }
 
-        debugTick++;
-        if (debugTick > 30) {
-            debugTick = 0;
-            System.out.println("bg --> " + background.getSprite().getY());
-            System.out.println("bgLoop --> " + backgroundLoop.getSprite().getY());
-            System.out.println("height --> " + background.getSprite().getHeight() * background.getSprite().getScaleY());
+        if (top(bgs.peek()) < 0) {
+            Background bg = bgs.poll();
+            Background last = lastBg();
+            bg.setPosition(left(last), top(last));
+            bgs.add(bg);
         }
 
     }
@@ -85,8 +87,9 @@ public class LoopedBackground {
     }
 
     public void render(SpriteBatch batch) {
-        background.getSprite().draw(batch);
-        backgroundLoop.getSprite().draw(batch);
+        for (Background bg : bgs) {
+            bg.getSprite().draw(batch);
+        }
 
         if (cloudsEnabled) {
             for (int i = 0; i < clouds.size(); ++i) {
@@ -95,4 +98,22 @@ public class LoopedBackground {
         }
     }
 
+
+    private Background lastBg() {
+        Background bg = null;
+        for (Background background : bgs) {
+            bg = background;
+        }
+        return bg;
+    }
+
+    private float left(Background background) {
+        return background.getSprite().getX();
+    }
+    private float top(Background background) {
+        return background.getSprite().getY() + background.getSprite().getHeight() * background.getSprite().getScaleY();
+    }
+    private float bottom(Background background) {
+        return background.getSprite().getY();
+    }
 }

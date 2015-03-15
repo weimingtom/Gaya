@@ -68,10 +68,6 @@ public class Level {
     public void render(SpriteBatch batch) {
         bg.render(batch);
 
-        if (bg != null) {
-            return;
-        }
-
         player.getSprite().draw(batch);
 
         for (int i = 0; i < waves.size(); ++i) {
@@ -131,9 +127,6 @@ public class Level {
 
 
         bg.update(delta);
-        if (bg != null) {
-            return;
-        }
 
         player.update(input, delta);
 
