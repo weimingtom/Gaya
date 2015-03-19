@@ -48,7 +48,6 @@ public class EnemyShip extends Ship {
     private int health;
     private float speed;
 
-    private boolean exploding = false;
     private boolean canRemove = false;
 
     private EnemyShip() {
@@ -91,10 +90,6 @@ public class EnemyShip extends Ship {
 
     public boolean canRemove() {
         return canRemove;
-    }
-
-    public void explode() {
-        exploding = true;
     }
 
     public Sprite getSprite() {

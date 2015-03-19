@@ -9,6 +9,8 @@ public abstract class Ship implements Printable {
     protected Vector2f position;
     protected Rectangle bounds;
 
+    protected boolean exploding = false;
+
     /*
     *   Position    - position of the ship's center
     *   Bounds      - ship's bounding rectangle
@@ -40,8 +42,21 @@ public abstract class Ship implements Printable {
         this.bounds = bounds;
     }
 
+    public void explode() {
+        exploding = true;
+    }
+
     public Vector2f getPosition() { return position; }
     public Rectangle getBounds() { return bounds; }
+
+    public boolean collidesWith(Ship ship) {
+        if (this.getBounds().overlaps(ship.getBounds())) {
+            if (!this.exploding && !ship.exploding) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     // Final, because we don't want out children to override this method
     public final void println() {
