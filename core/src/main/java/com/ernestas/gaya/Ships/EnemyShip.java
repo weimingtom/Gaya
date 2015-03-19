@@ -1,6 +1,11 @@
 package com.ernestas.gaya.Ships;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.ernestas.gaya.ResourceLoaders.ResourceLoader;
+import com.ernestas.gaya.Spritesheet.Animation;
+import com.ernestas.gaya.Spritesheet.Spritesheet;
+import com.ernestas.gaya.Util.Settings.GameSettings;
+import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
 
 public class EnemyShip extends Ship {
@@ -38,36 +43,72 @@ public class EnemyShip extends Ship {
 
     }
 
+    private Animation explosionAnimation;
     private Sprite sprite;
     private int health;
     private float speed;
+
+    private boolean exploding = false;
+    private boolean canRemove = false;
 
     private EnemyShip() {
         this.sprite = null;
         this.health = 0;
         this.speed = 0f;
+        init();
     }
 
     public EnemyShip(Sprite sprite, int health, float speed) {
         this.sprite = sprite;
         this.health = health;
         this.speed = speed;
+        init();
+    }
+
+    private void init() {
+        Spritesheet spritesheet = new Spritesheet(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.explosionSS).getTexture(),
+            32, 32, 14);
+        explosionAnimation = new Animation(spritesheet, (int) position.x, (int) position.y, 10, Animation.frameRateToDeltaRate(Settings.getInstance().getFrameRate()));
     }
 
     public void update(float delta) {
         //TODO: AI
+
+        if (exploding) {
+            explosionAnimation.update(delta);
+            if (explosionAnimation.iterationDone()) {
+                canRemove = explosionAnimation.iterationDone();
+            }
+        }
+
+        float flySpeed = exploding ? speed * (100 - explosionAnimation.percentageDone()) : speed;
+
         setPosition(position.x, position.y - speed * delta);
+        if (getPosition().y + sprite.getHeight() < 0) {
+            canRemove = true;
+        }
     }
 
     public boolean canRemove() {
-        return getPosition().y + sprite.getHeight() < 0;
+        return canRemove;
+    }
+
+    public void explode() {
+        exploding = true;
     }
 
     public Sprite getSprite() {
-        if (sprite != null) {
-            sprite.setPosition(position.x - bounds.getWidth() / 2, position.y - bounds.getHeight() / 2);
+        Sprite result;
+
+        if (exploding) {
+            result = explosionAnimation.getSprite();
+        } else {
+            result = sprite;
         }
-        return sprite;
+        if (result != null) {
+            result.setPosition(position.x - bounds.getWidth() / 2, position.y - bounds.getHeight() / 2);
+        }
+        return result;
     }
 
     public void setSprite(Sprite sprite) {

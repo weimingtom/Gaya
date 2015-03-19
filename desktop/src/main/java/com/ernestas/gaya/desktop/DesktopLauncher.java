@@ -6,16 +6,17 @@ import com.ernestas.gaya.GayaEntry;
 import com.ernestas.gaya.Util.Settings.Settings;
 
 public class DesktopLauncher {
-    private static final float SCALE = 1.5f;
+    private static final float SCALE = 1.3f;
     private static final String TITLE = "Gaya";
-    private static final String VERSION = "v0.4";
+    private static final String VERSION = "v0.5";
 
 	public static void main (String[] arg) {
+        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+
         Settings.getInstance().setScale(SCALE);
         Settings.getInstance().setWidth((int) (Settings.DEFAULT_WIDTH * SCALE));
         Settings.getInstance().setHeight((int) (Settings.DEFAULT_HEIGHT * SCALE));
-
-        LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+        Settings.getInstance().setFrameRate(config.foregroundFPS);
 
         config.title = TITLE + " " + VERSION;
         config.width = Settings.getInstance().getWidth();

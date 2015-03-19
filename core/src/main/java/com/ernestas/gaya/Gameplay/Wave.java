@@ -29,13 +29,13 @@ public class Wave {
             wave = new Wave();
         }
 
-        public Builder withOffset(float offset) {
-            wave.setOffset(offset);
+        public Builder withEnemy(EnemyWithOffset enemy) {
+            wave.addEnemy(enemy);
             return this;
         }
 
-        public Builder withEnemy(EnemyWithOffset enemy) {
-            wave.addEnemy(enemy);
+        public Builder withId(int id) {
+            wave.id = id;
             return this;
         }
 
@@ -47,7 +47,7 @@ public class Wave {
         private void prepareEnemies() {
             for (int i = 0; i < wave.enemyList.size(); ++i) {
                 EnemyWithOffset enemy = wave.enemyList.get(i);
-                enemy.offsetY += wave.offset + Settings.getInstance().getHeight();
+                enemy.offsetY += Settings.getInstance().getHeight();
                 enemy.offsetX += Settings.getInstance().getWidth() / 2;
 
                 enemy.ship.setPosition(enemy.offsetX, enemy.offsetY);
@@ -56,22 +56,24 @@ public class Wave {
 
     }
 
-    private float offset;
     private List<EnemyWithOffset> enemyList = new LinkedList<EnemyWithOffset>();
+    private int id;
 
+    public static final Wave EMPTY_WAVE = new Wave.Builder()
+                                                .withId(-1)
+                                                .build();
 
     private Wave() {
     }
 
-    private void setOffset(float offset) { this.offset = offset; }
     private void addEnemy(EnemyWithOffset enemy) {
         if (!enemyList.contains(enemy)) {
             enemyList.add(enemy);
         }
     }
 
-    public float getOffset() {return offset;}
-    public List<EnemyWithOffset> getEnemyList() {return enemyList;}
+    public List<EnemyWithOffset> getEnemyList() { return enemyList; }
+    public int getId() { return id; }
 
     public boolean waveCompleted() {
         return enemyList.isEmpty();

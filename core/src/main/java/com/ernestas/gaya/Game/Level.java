@@ -30,7 +30,7 @@ public class Level {
     Scenario scenario;
 
 //    Waves
-    List<Wave> waves = new LinkedList<Wave>();
+    Wave currentWave = Wave.EMPTY_WAVE;
 
 //    Background
     private LoopedBackground bg;
@@ -70,12 +70,10 @@ public class Level {
 
         player.getSprite().draw(batch);
 
-        for (int i = 0; i < waves.size(); ++i) {
-            List<Wave.EnemyWithOffset> enemyList = waves.get(i).getEnemyList();
-            for (int index = 0; index < enemyList.size(); ++index) {
-                EnemyShip enemy = enemyList.get(index).ship;
-                enemy.getSprite().draw(batch);
-            }
+        List<Wave.EnemyWithOffset> enemyList = currentWave.getEnemyList();
+        for (int index = 0; index < enemyList.size(); ++index) {
+            EnemyShip enemy = enemyList.get(index).ship;
+            enemy.getSprite().draw(batch);
         }
 
         if (debug) {
@@ -91,13 +89,10 @@ public class Level {
 
             // enemies
             renderer.setColor(Color.BLUE);
-            for (int i = 0; i < waves.size(); ++i) {
-                List<Wave.EnemyWithOffset> enemyList = waves.get(i).getEnemyList();
-                for (int index = 0; index < enemyList.size(); ++index) {
-                    EnemyShip enemy = enemyList.get(index).ship;
-                    rec = enemy.getSprite().getBoundingRectangle();
-                    renderer.rect(rec.x, rec.y, rec.width, rec.height);
-                }
+            for (int index = 0; index < enemyList.size(); ++index) {
+                EnemyShip enemy = enemyList.get(index).ship;
+                rec = enemy.getSprite().getBoundingRectangle();
+                renderer.rect(rec.x, rec.y, rec.width, rec.height);
             }
 
 
@@ -118,6 +113,11 @@ public class Level {
         if (input.isPressedAdvanced(Input.Keys.P)) {
             paused = !paused;
         }
+        if (input.isPressedAdvanced(Input.Keys.O)) {
+            for (Wave.EnemyWithOffset ship : currentWave.getEnemyList()) {
+                ship.ship.explode();
+            }
+        }
 
         if (paused) {
             return;
@@ -130,20 +130,26 @@ public class Level {
 
         player.update(input, delta);
 
-        while (scenario.event(gameTime) != Scenario.NO_EVENT) {
-            if (scenario.event(gameTime) == Scenario.NEW_WAVE) {
-                Wave wave = scenario.getWave(gameTime);
-                if (wave != null) {
-                    waves.add(wave);
-                }
+        //if ()
+
+//        while (scenario.event(gameTime) != Scenario.NO_EVENT) {
+//            if (scenario.event(gameTime) == Scenario.NEW_WAVE) {
+//                Wave wave = scenario.getWave(gameTime);
+//                if (wave != null) {
+//                    waves.add(wave);
+//                }
+//            }
+//
+//            if (scenario.event(gameTime) == Scenario.NEW_PICKUP) {
+//                break;
+//            }
+//        }
+
+            if (currentWave.waveCompleted()) {
+                currentWave = scenario.getNextWave();
             }
 
-            if (scenario.event(gameTime) == Scenario.NEW_PICKUP) {
-                break;
-            }
-        }
-        for (int i = 0; i < waves.size(); ++i) {
-            List<Wave.EnemyWithOffset> enemyList = waves.get(i).getEnemyList();
+            List<Wave.EnemyWithOffset> enemyList = currentWave.getEnemyList();
             for (int index = 0; index < enemyList.size(); ++index) {
                 // update ship
                 EnemyShip enemy = enemyList.get(index).ship;
@@ -160,13 +166,7 @@ public class Level {
                 }
             }
 
-            if (waves.get(i).waveCompleted()) {
-                waves.remove(i);
-                --i;
-            }
-        }
-
-        if (scenario.scenarioCompleted() && waves.isEmpty()) {
+        if (scenario.scenarioCompleted() && currentWave == Wave.EMPTY_WAVE) {
             System.out.println("GAME FINISHED");
         }
     }

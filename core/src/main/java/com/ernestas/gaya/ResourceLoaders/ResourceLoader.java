@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class ResourceLoader {
 
     public enum ResourceId {
-        splash, background, cloud, shipPlayer, shipEnemy
+        splash, background, cloud, shipPlayer, shipEnemy, explosionSS
     }
 
     ResourcesPather pather;
@@ -33,6 +33,7 @@ public class ResourceLoader {
             loadResource(ResourceId.cloud, pather.cloud);
             loadResource(ResourceId.shipPlayer, pather.shipPlayer);
             loadResource(ResourceId.shipEnemy, pather.shipEnemy);
+            loadResource(ResourceId.explosionSS, pather.explosionSS, false);
 
             loaded = true;
         } catch(Exception e) {
@@ -42,17 +43,17 @@ public class ResourceLoader {
     }
 
     private void loadResource(ResourceId id, String path) {
+        loadResource(id, path, true);
+    }
+
+    private void loadResource(ResourceId id, String path, boolean scale) {
         Texture texture = new Texture(path);
         texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Sprite sprite = new Sprite(texture);
-        scaleSprite(sprite, Settings.getInstance().getScale());
+        if (scale) {
+            sprite = SpriteScaler.scaleSprite(sprite, Settings.getInstance().getScale());
+        }
         spriteMap.put(id, sprite);
-    }
-
-    private void scaleSprite(Sprite sprite, float scale) {
-//        sprite.setOriginCenter();
-        sprite.setOrigin(0, 0);
-        sprite.setScale(scale);
     }
 
     public Sprite getResource(ResourceId id) {

@@ -14,6 +14,7 @@ import com.ernestas.gaya.Util.Printable;
 import com.ernestas.gaya.Util.Settings.GameSettings;
 import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
+import com.ernestas.gaya.Validator.Validator;
 
 import static com.ernestas.gaya.Util.Settings.Settings.*;
 
@@ -32,9 +33,9 @@ public class GayaEntry extends Game {
 
 	@Override
 	public void create () {
+        input = new InputProcessor(DEVICE == ANDROID);
         if (DEVICE == ANDROID) {
-            float scale = 0;
-            scale = Gdx.graphics.getHeight() / DEFAULT_HEIGHT;
+            float scale = Gdx.graphics.getHeight() / DEFAULT_HEIGHT;
             if (Gdx.graphics.getWidth() / DEFAULT_WIDTH < scale) {
                 scale = Gdx.graphics.getWidth() / DEFAULT_WIDTH;
             }
@@ -42,11 +43,17 @@ public class GayaEntry extends Game {
             Settings.getInstance().setScale(scale);
             Settings.getInstance().setWidth((int) (Settings.DEFAULT_WIDTH * scale));
             Settings.getInstance().setHeight((int) (Settings.DEFAULT_HEIGHT * scale));
-
-            input = new InputProcessor(DEVICE == ANDROID);
         } else if (DEVICE == DESKTOP) {
-            input = new InputProcessor(DEVICE == ANDROID);
+
         }
+
+//        Validator val = new Validator("Scenarios/scenario1.json");
+//        if (val.isValid()) {
+//            System.out.println("FILE IS VALID!");
+//        } else {
+//            System.out.println("INVALID FILE!");
+//        }
+
 
         GameSettings.getInstance().setResourceLoader(new ResourceLoader(ResourcesPather.defaultResourcesPather()));
         GameSettings.getInstance().getResourceLoader().load();

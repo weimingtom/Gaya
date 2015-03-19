@@ -14,6 +14,8 @@ public class AndroidLauncher extends AndroidApplication {
         super.onCreate(savedInstanceState);
         AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
+        Settings.getInstance().setFrameRate(60);
+
 //        config.useGL30 = true; // Use GL30 for performance improvement
 
 		initialize(new GayaEntry(GayaEntry.ANDROID), config);

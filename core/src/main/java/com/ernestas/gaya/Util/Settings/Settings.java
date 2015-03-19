@@ -25,6 +25,7 @@ public class Settings {
     private int width;
     private int height;
     private float scale;
+    private int frameRate;
 
     public int getWidth() {
         return width;
@@ -44,5 +45,7 @@ public class Settings {
     public void setScale(float scale) {
         this.scale = scale;
     }
+    public int getFrameRate() { return frameRate; }
+    public void setFrameRate(int frameRate) { this.frameRate = frameRate; }
 
 }

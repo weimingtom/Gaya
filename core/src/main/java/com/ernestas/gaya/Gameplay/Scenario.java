@@ -5,6 +5,8 @@ import com.ernestas.gaya.Ships.EnemyShip;
 import com.ernestas.gaya.Util.Settings.GameSettings;
 import com.ernestas.gaya.Util.Settings.Settings;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,31 +23,34 @@ public class Scenario {
 
     }
 
-    public int event(float offset) {
-        for (int i = 0; i < waves.size(); ++i) {
-            if (waves.get(i).getOffset() <= offset) {
-                return NEW_WAVE;
-            }
-        }
+    public int event() {
+        // Powerups
         return NO_EVENT;
     }
 
     public void addWave(Wave wave) {
         if (!waves.contains(wave)) {
             waves.add(wave);
+            sort();
         }
     }
 
-    public Wave getWave(float offset) {
-        for (int i = 0; i < waves.size(); ++i) {
-            Wave wave = waves.get(i);
-            if (wave.getOffset() <= offset) {
-                waves.remove(i);
-                return wave;
-            }
+    public Wave getNextWave() {
+        Wave wave = Wave.EMPTY_WAVE;
+        if (!waves.isEmpty()) {
+            wave = waves.get(0);
+            waves.remove(0);
         }
+        return wave;
+    }
 
-        return null;
+    private void sort() {
+        Collections.sort(waves, new Comparator<Wave>() {
+            @Override
+            public int compare(Wave wave1, Wave wave2) {
+                return wave1.getId() - wave2.getId();
+            }
+        });
     }
 
     public boolean scenarioCompleted() {
@@ -59,7 +64,7 @@ public class Scenario {
         Scenario scenario = new Scenario();
 
         Wave wave = new Wave.Builder()
-            .withOffset(100f)
+            .withId(0)
             .withEnemy(new Wave.EnemyWithOffset(
                 0, 0, new EnemyShip.Builder()
                 .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
@@ -83,7 +88,7 @@ public class Scenario {
 
 
         Wave wave1 = new Wave.Builder()
-            .withOffset(200f)
+            .withId(1)
             .withEnemy(new Wave.EnemyWithOffset(
                 0, 0, new EnemyShip.Builder()
                 .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))

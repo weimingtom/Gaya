@@ -11,6 +11,8 @@ public class ResourcesPather {
     public String shipPlayer;
     public String shipEnemy;
 
+    // FX
+    public String explosionSS;
 
     // Sounds
 
@@ -19,13 +21,14 @@ public class ResourcesPather {
 
     public static ResourcesPather defaultResourcesPather() {
         ResourcesPather resourcesPather = new ResourcesPather();
-        String defaultPath = "";
+        String defaultPath = "Sprites/";
 
         resourcesPather.splash = defaultPath + "splash.png";
         resourcesPather.background = defaultPath + "desert-background-looped.png";
         resourcesPather.cloud = defaultPath + "clouds-transparent.png";
         resourcesPather.shipPlayer = defaultPath + "spaceship32.png";
         resourcesPather.shipEnemy = defaultPath + "enemyShip32.png";
+        resourcesPather.explosionSS = defaultPath + "explosionSS.png";
 
         return resourcesPather;
     }
