@@ -15,4 +15,12 @@ public class SpriteScaler {
         return result;
     }
 
+    public static Sprite lowerSpriteZAxis(Sprite sprite, float percentage) {
+        Sprite result = new Sprite(sprite);
+
+        result.setOrigin(0, 0);
+        result.setScale(sprite.getScaleX() * percentage / 100, sprite.getScaleY() * percentage / 100);
+
+        return result;
+    }
 }

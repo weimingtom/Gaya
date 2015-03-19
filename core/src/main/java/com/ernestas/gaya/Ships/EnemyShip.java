@@ -2,6 +2,7 @@ package com.ernestas.gaya.Ships;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.ernestas.gaya.ResourceLoaders.ResourceLoader;
+import com.ernestas.gaya.ResourceLoaders.SpriteScaler;
 import com.ernestas.gaya.Spritesheet.Animation;
 import com.ernestas.gaya.Spritesheet.Spritesheet;
 import com.ernestas.gaya.Util.Settings.GameSettings;
@@ -80,8 +81,7 @@ public class EnemyShip extends Ship {
             }
         }
 
-        float flySpeed = exploding ? speed * (1 - explosionAnimation.percentageDone()) : speed;
-        flySpeed = Math.max(flySpeed, 10f);
+        float flySpeed = exploding ? -10f : speed;
         setPosition(position.x, position.y - flySpeed * delta);
         if (getPosition().y + sprite.getHeight() < 0) {
             canRemove = true;
@@ -97,6 +97,10 @@ public class EnemyShip extends Ship {
 
         if (exploding) {
             result = explosionAnimation.getSprite();
+
+            float percentage = (1 - explosionAnimation.percentageDone()) * 100;
+
+            result = SpriteScaler.lowerSpriteZAxis(result, percentage);
         } else {
             result = sprite;
         }
