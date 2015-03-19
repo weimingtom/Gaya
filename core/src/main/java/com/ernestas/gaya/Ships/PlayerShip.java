@@ -3,9 +3,15 @@ package com.ernestas.gaya.Ships;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
+import com.ernestas.gaya.Game.Level;
 import com.ernestas.gaya.Input.InputProcessor;
+import com.ernestas.gaya.Ships.Bullets.Bullet;
+import com.ernestas.gaya.Ships.Bullets.SimpleBullet;
 import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerShip extends Ship {
 
@@ -16,12 +22,15 @@ public class PlayerShip extends Ship {
     private int health = DEFAULT_HEALTH;
     private float speed = DEFAULT_SPEED;
 
-    public PlayerShip(Vector2f position) {
-        super(position);
+    private float fireRate = 0.5f;
+    private float timePassedSinceLastShoot = fireRate;
+
+    public PlayerShip(Level level, Vector2f position) {
+        super(level, position);
     }
 
-    public PlayerShip(Sprite sprite, Vector2f position) {
-        this(position);
+    public PlayerShip(Level level, Sprite sprite, Vector2f position) {
+        this(level, position);
         this.sprite = sprite;
         setBounds(sprite.getBoundingRectangle());
         setPosition(getPosition());
@@ -35,6 +44,7 @@ public class PlayerShip extends Ship {
     }
 
     public void update(InputProcessor input, float delta) {
+        // Movement
         float vecX = 0;
         float vecY = 0;
 
@@ -57,6 +67,26 @@ public class PlayerShip extends Ship {
         if (vecY != 0)
             move(0, vecY, delta);
 
+
+        // Shooting
+        timePassedSinceLastShoot += delta;
+        if (input.isPressed(Input.Keys.SPACE) && canShoot()) {
+            shoot();
+        }
+    }
+
+    private void shoot() {
+        timePassedSinceLastShoot = 0f;
+        List<Bullet> bullets = new ArrayList<Bullet>();
+
+        // Change to arsenal
+        bullets.add(new SimpleBullet(this, new Vector2f(this.getBounds().getX(), this.getBounds().getY()))) ;
+
+        level.addBullets(bullets);
+    }
+
+    private boolean canShoot() {
+        return timePassedSinceLastShoot >= fireRate;
     }
 
     private void move(float vecX, float vecY, float delta) {

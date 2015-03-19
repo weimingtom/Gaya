@@ -12,12 +12,15 @@ import com.ernestas.gaya.Gameplay.Wave;
 import com.ernestas.gaya.GayaEntry;
 import com.ernestas.gaya.Input.InputProcessor;
 import com.ernestas.gaya.ResourceLoaders.ResourceLoader;
+import com.ernestas.gaya.Ships.Bullets.Bullet;
 import com.ernestas.gaya.Ships.EnemyShip;
 import com.ernestas.gaya.Ships.PlayerShip;
+import com.ernestas.gaya.Ships.Ship;
 import com.ernestas.gaya.Util.Settings.GameSettings;
 import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -39,6 +42,9 @@ public class Level {
 //    Player
     private PlayerShip player;
 
+//    Bullets
+    private List<Bullet> bullets = new ArrayList<Bullet>();
+
     // Debug
     private boolean debug;
     private boolean paused;
@@ -55,7 +61,7 @@ public class Level {
         restartLevel();
 
         Sprite playerSprite = GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipPlayer);
-        player = new PlayerShip(playerSprite, new Vector2f(Settings.getInstance().getWidth() / 2, 100));
+        player = new PlayerShip(this, playerSprite, new Vector2f(Settings.getInstance().getWidth() / 2, 100));
 
         Sprite bgSprite = GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.background);
         bgSprite.setScale((Settings.getInstance().getWidth() / bgSprite.getWidth()), bgSprite.getScaleY());
@@ -65,19 +71,28 @@ public class Level {
     public void restartLevel() {
         paused = false;
         currentWave = Wave.EMPTY_WAVE;
+        bullets.clear();
         scenario = Scenario.getTestScenario();
     }
 
 
     public void render(SpriteBatch batch) {
+        // Background
         bg.render(batch);
 
+        // Player
         player.getSprite().draw(batch);
 
+        // Enemies
         List<Wave.EnemyWithOffset> enemyList = currentWave.getEnemyList();
         for (int index = 0; index < enemyList.size(); ++index) {
             EnemyShip enemy = enemyList.get(index).ship;
             enemy.getSprite().draw(batch);
+        }
+
+        // Bullets
+        for (Bullet bullet : bullets) {
+            bullet.getSprite().draw(batch);
         }
 
         if (debug) {
@@ -99,6 +114,12 @@ public class Level {
                 renderer.rect(rec.x, rec.y, rec.width, rec.height);
             }
 
+            // bullets
+            renderer.setColor(Color.PURPLE);
+            for (Bullet bullet : bullets) {
+                rec = bullet.getBounds();
+                renderer.rect(rec.x, rec.y, rec.width, rec.height);
+            }
 
             // pickups
             renderer.setColor(Color.GREEN);
@@ -130,14 +151,21 @@ public class Level {
             return;
         }
 
+        // Background
         bg.update(delta);
 
+        // Player
         player.update(input, delta);
 
+        // Waves
         if (currentWave.waveCompleted()) {
             currentWave = scenario.getNextWave();
+            for (Wave.EnemyWithOffset enemy : currentWave.getEnemyList()) {
+                enemy.ship.setLevel(this);
+            }
         }
 
+        // Enemies
         List<Wave.EnemyWithOffset> enemyList = currentWave.getEnemyList();
         for (int index = 0; index < enemyList.size(); ++index) {
             // update ship
@@ -155,9 +183,41 @@ public class Level {
             }
         }
 
+        // Bullets
+        for (int i = 0; i < bullets.size() ; ++i) {
+            Bullet bullet = bullets.get(i);
+            boolean hit = false;
+            bullet.update(delta);
+            if (bullet.getBounds().overlaps(player.getBounds()) && !bullet.getAuthor().equals(player)) {
+                // hit player
+                hit = true;
+            } else {
+                for (int index = 0; index < enemyList.size(); ++index) {
+                    EnemyShip enemy = enemyList.get(index).ship;
+
+                    if (bullet.getBounds().overlaps(enemy.getBounds()) && bullet.getAuthor().equals(player) &&
+                        !enemy.isExploding()) {
+                        // hit enemy
+                        enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+                        hit = true;
+                    }
+                }
+            }
+            if (hit) {
+                bullets.remove(i);
+                --i;
+            }
+        }
+
+        // Is game finished?
         if (scenario.scenarioCompleted() && currentWave == Wave.EMPTY_WAVE) {
             System.out.println("GAME FINISHED");
         }
     }
 
+    public void addBullets(List<Bullet> bullets) {
+        for (Bullet bullet : bullets) {
+            this.bullets.add(bullet);
+        }
+    }
 }

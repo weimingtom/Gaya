@@ -8,7 +8,7 @@ import com.ernestas.gaya.Util.Settings.Settings;
 public class DesktopLauncher {
     private static final float SCALE = 1.3f;
     private static final String TITLE = "Gaya";
-    private static final String VERSION = "v0.5";
+    private static final String VERSION = "v0.6";
 
 	public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

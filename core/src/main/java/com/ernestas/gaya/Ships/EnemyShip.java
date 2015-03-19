@@ -1,6 +1,7 @@
 package com.ernestas.gaya.Ships;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.ernestas.gaya.Game.Level;
 import com.ernestas.gaya.ResourceLoaders.ResourceLoader;
 import com.ernestas.gaya.ResourceLoaders.SpriteScaler;
 import com.ernestas.gaya.Spritesheet.Animation;
@@ -73,6 +74,9 @@ public class EnemyShip extends Ship {
 
     public void update(float delta) {
         //TODO: AI
+        if (health <= 0) {
+            exploding = true;
+        }
 
         if (exploding) {
             explosionAnimation.update(delta);

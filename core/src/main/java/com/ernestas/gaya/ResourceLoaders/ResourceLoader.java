@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class ResourceLoader {
 
     public enum ResourceId {
-        splash, background, cloud, shipPlayer, shipEnemy, explosionSS
+        splash, background, cloud, shipPlayer, shipEnemy, explosionSS, simpleBullet
     }
 
     ResourcesPather pather;
@@ -34,6 +34,7 @@ public class ResourceLoader {
             loadResource(ResourceId.shipPlayer, pather.shipPlayer);
             loadResource(ResourceId.shipEnemy, pather.shipEnemy);
             loadResource(ResourceId.explosionSS, pather.explosionSS, false);
+            loadResource(ResourceId.simpleBullet, pather.simpleBullet);
 
             loaded = true;
         } catch(Exception e) {

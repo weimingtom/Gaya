@@ -11,6 +11,8 @@ public class ResourcesPather {
     public String shipPlayer;
     public String shipEnemy;
 
+    public String simpleBullet;
+
     // FX
     public String explosionSS;
 
@@ -29,6 +31,7 @@ public class ResourcesPather {
         resourcesPather.shipPlayer = defaultPath + "spaceship32.png";
         resourcesPather.shipEnemy = defaultPath + "enemyShip32.png";
         resourcesPather.explosionSS = defaultPath + "explosionSS.png";
+        resourcesPather.simpleBullet = defaultPath + "bullets/simpleBullet.png";
 
         return resourcesPather;
     }

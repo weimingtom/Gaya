@@ -1,6 +1,7 @@
 package com.ernestas.gaya.Ships;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.ernestas.gaya.Game.Level;
 import com.ernestas.gaya.Util.Printable;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
 
@@ -11,16 +12,21 @@ public abstract class Ship implements Printable {
 
     protected boolean exploding = false;
 
+    protected Level level;
+
     /*
     *   Position    - position of the ship's center
     *   Bounds      - ship's bounding rectangle
     */
 
-    public Ship() {
-        this(new Vector2f());
+    public Ship() { this(null); }
+
+    public Ship(Level level) {
+        this(level, new Vector2f());
     }
 
-    public Ship(Vector2f position) {
+    public Ship(Level level, Vector2f position) {
+        this.level = level;
         this.position = position;
         this.bounds = new Rectangle(0, 0, 0, 0);
     }
@@ -49,6 +55,9 @@ public abstract class Ship implements Printable {
     public Vector2f getPosition() { return position; }
     public Rectangle getBounds() { return bounds; }
 
+    public void setLevel(Level level) { this.level = level; }
+    public Level getLevel() { return level; }
+
     public boolean collidesWith(Ship ship) {
         if (this.getBounds().overlaps(ship.getBounds())) {
             if (!this.exploding && !ship.exploding) {
@@ -68,4 +77,7 @@ public abstract class Ship implements Printable {
         return this.getClass() + " position:["  + position.toString() + "] bounds:[" + bounds.toString() + "]";
     }
 
+    public boolean isExploding() {
+        return exploding;
+    }
 }
