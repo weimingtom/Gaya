@@ -175,6 +175,7 @@ public class Level {
             // check collision
             if (player.collidesWith(enemy)) {
                 System.out.println("COLLISION");
+                enemy.hitFor(100);
             }
 
             if (enemy.canRemove()) {
@@ -198,12 +199,12 @@ public class Level {
                     if (bullet.getBounds().overlaps(enemy.getBounds()) && bullet.getAuthor().equals(player) &&
                         !enemy.isExploding()) {
                         // hit enemy
-                        enemy.setHealth(enemy.getHealth() - bullet.getDamage());
+                        enemy.hitFor(bullet.getDamage());
                         hit = true;
                     }
                 }
             }
-            if (hit) {
+            if (hit || !bullet.onScreen()) {
                 bullets.remove(i);
                 --i;
             }

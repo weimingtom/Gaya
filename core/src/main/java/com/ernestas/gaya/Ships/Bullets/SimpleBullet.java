@@ -20,7 +20,16 @@ public class SimpleBullet extends Bullet {
 
     @Override
     public Rectangle getBounds() {
+        int emptyWidth = 24;
+        int emptyHeight = 16;
+
         Rectangle bounds = sprite.getBoundingRectangle();
+
+        bounds.x += emptyWidth / 2;
+        bounds.width -= emptyWidth;
+
+        bounds.y += emptyHeight / 2;
+        bounds.height -= emptyHeight;
 
         return bounds;
     }

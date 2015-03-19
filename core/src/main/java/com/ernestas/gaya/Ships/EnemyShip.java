@@ -127,6 +127,8 @@ public class EnemyShip extends Ship {
         this.health = health;
     }
 
+    public void hitFor(int damage) { this.health -= damage; }
+
     public float getSpeed() {
         return speed;
     }

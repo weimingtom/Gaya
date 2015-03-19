@@ -3,6 +3,7 @@ package com.ernestas.gaya.Ships.Bullets;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Rectangle;
 import com.ernestas.gaya.Ships.Ship;
+import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
 
 public abstract class Bullet {
@@ -70,5 +71,11 @@ public abstract class Bullet {
         return damage;
     }
 
+    public boolean onScreen() {
+        Rectangle rec = new Rectangle(0, 0, 0, 0);
+        rec.width = Settings.getInstance().getWidth();
+        rec.height = Settings.getInstance().getHeight();
 
+        return rec.overlaps(this.getBounds());
+    }
 }
