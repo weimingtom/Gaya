@@ -30,7 +30,7 @@ public class Level {
     Scenario scenario;
 
 //    Waves
-    Wave currentWave = Wave.EMPTY_WAVE;
+    Wave currentWave;
 
 //    Background
     private LoopedBackground bg;
@@ -39,12 +39,9 @@ public class Level {
 //    Player
     private PlayerShip player;
 
-//    Time
-    private float gameTime = 0;
-
     // Debug
-    private boolean debug = false;
-    private boolean paused = false;
+    private boolean debug;
+    private boolean paused;
 
 
     public Level(GayaEntry gaya, InputProcessor input) {
@@ -52,9 +49,10 @@ public class Level {
         this.input = input;
     }
 
+    // Should be only called once
     public void setup() {
         //TODO: do stuff
-        scenario = Scenario.getTestScenario();
+        restartLevel();
 
         Sprite playerSprite = GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipPlayer);
         player = new PlayerShip(playerSprite, new Vector2f(Settings.getInstance().getWidth() / 2, 100));
@@ -62,6 +60,12 @@ public class Level {
         Sprite bgSprite = GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.background);
         bgSprite.setScale((Settings.getInstance().getWidth() / bgSprite.getWidth()), bgSprite.getScaleY());
         bg = new LoopedBackground(new Sprite(bgSprite), -backgroundSpeed, false);
+    }
+
+    public void restartLevel() {
+        paused = false;
+        currentWave = Wave.EMPTY_WAVE;
+        scenario = Scenario.getTestScenario();
     }
 
 
@@ -113,6 +117,9 @@ public class Level {
         if (input.isPressedAdvanced(Input.Keys.P)) {
             paused = !paused;
         }
+        if (input.isPressedAdvanced(Input.Keys.R)) {
+            restartLevel();
+        }
         if (input.isPressedAdvanced(Input.Keys.O)) {
             for (Wave.EnemyWithOffset ship : currentWave.getEnemyList()) {
                 ship.ship.explode();
@@ -123,48 +130,30 @@ public class Level {
             return;
         }
 
-        gameTime += backgroundSpeed * delta;
-
-
         bg.update(delta);
 
         player.update(input, delta);
 
-        //if ()
+        if (currentWave.waveCompleted()) {
+            currentWave = scenario.getNextWave();
+        }
 
-//        while (scenario.event(gameTime) != Scenario.NO_EVENT) {
-//            if (scenario.event(gameTime) == Scenario.NEW_WAVE) {
-//                Wave wave = scenario.getWave(gameTime);
-//                if (wave != null) {
-//                    waves.add(wave);
-//                }
-//            }
-//
-//            if (scenario.event(gameTime) == Scenario.NEW_PICKUP) {
-//                break;
-//            }
-//        }
+        List<Wave.EnemyWithOffset> enemyList = currentWave.getEnemyList();
+        for (int index = 0; index < enemyList.size(); ++index) {
+            // update ship
+            EnemyShip enemy = enemyList.get(index).ship;
+            enemy.update(delta);
 
-            if (currentWave.waveCompleted()) {
-                currentWave = scenario.getNextWave();
+            // check collision
+            if (player.collidesWith(enemy)) {
+                System.out.println("COLLISION");
             }
 
-            List<Wave.EnemyWithOffset> enemyList = currentWave.getEnemyList();
-            for (int index = 0; index < enemyList.size(); ++index) {
-                // update ship
-                EnemyShip enemy = enemyList.get(index).ship;
-                enemy.update(delta);
-
-                // check collision
-                if (player.getBounds().overlaps(enemy.getBounds())) {
-                    System.out.println("COLLISION");
-                }
-
-                if (enemy.canRemove()) {
-                    enemyList.remove(index);
-                    --index;
-                }
+            if (enemy.canRemove()) {
+                enemyList.remove(index);
+                --index;
             }
+        }
 
         if (scenario.scenarioCompleted() && currentWave == Wave.EMPTY_WAVE) {
             System.out.println("GAME FINISHED");
