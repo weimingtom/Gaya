@@ -67,7 +67,7 @@ public class EnemyShip extends Ship {
     private void init() {
         Spritesheet spritesheet = new Spritesheet(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.explosionSS).getTexture(),
             32, 32, 14);
-        explosionAnimation = new Animation(spritesheet, (int) position.x, (int) position.y, 10, Animation.frameRateToDeltaRate(Settings.getInstance().getFrameRate()));
+        explosionAnimation = new Animation(spritesheet, (int) position.x, (int) position.y, 8, Animation.frameRateToDeltaRate(Settings.getInstance().getFrameRate()));
     }
 
     public void update(float delta) {
@@ -80,9 +80,9 @@ public class EnemyShip extends Ship {
             }
         }
 
-        float flySpeed = exploding ? speed * (100 - explosionAnimation.percentageDone()) : speed;
-
-        setPosition(position.x, position.y - speed * delta);
+        float flySpeed = exploding ? speed * (1 - explosionAnimation.percentageDone()) : speed;
+        flySpeed = Math.max(flySpeed, 10f);
+        setPosition(position.x, position.y - flySpeed * delta);
         if (getPosition().y + sprite.getHeight() < 0) {
             canRemove = true;
         }

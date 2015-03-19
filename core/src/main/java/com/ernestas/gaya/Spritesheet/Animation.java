@@ -44,7 +44,7 @@ public class Animation {
     }
 
     public float percentageDone() {
-        return (currentAnimation + 1f) / spritesheet.getAmount();
+        return (currentAnimation * 1f) / spritesheet.getAmount();
     }
 
     public static float frameRateToDeltaRate(int framesPerSecond) {
