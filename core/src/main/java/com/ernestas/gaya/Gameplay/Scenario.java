@@ -13,11 +13,12 @@ import java.util.List;
 public class Scenario {
 
     public static final int NO_EVENT = 0;
-    public static final int NEW_WAVE = 1;
-    public static final int NEW_PICKUP = 2;
+    public static final int NEW_PICKUP = 1;
 
-    // TODO: make sorted list
     private List<Wave> waves = new LinkedList<Wave>();
+
+    private String name = "";
+    private String author = "";
 
     public Scenario() {
 
@@ -59,27 +60,44 @@ public class Scenario {
 
     public List<Wave> getWaves() { return waves; }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
 
     public static Scenario getTestScenario() {
         Scenario scenario = new Scenario();
+        int middle = Settings.getInstance().getWidth() / 2;
 
         Wave wave = new Wave.Builder()
             .withId(0)
             .withEnemy(new Wave.EnemyWithOffset(
-                0, 0, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle, 0, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                -64, 64, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle - 64, 64, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                64, 64, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle + 64, 64, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
@@ -90,38 +108,38 @@ public class Scenario {
         Wave wave1 = new Wave.Builder()
             .withId(1)
             .withEnemy(new Wave.EnemyWithOffset(
-                0, 0, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle, 0, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                -64, 64, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle - 64, 64, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                64, 64, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle + 64, 64, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                -128, 96, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle - 128, 96, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                0, 96, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle, 96, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))
             .withEnemy(new Wave.EnemyWithOffset(
-                128, 96, new EnemyShip.Builder()
-                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipEnemy))
+                middle + 128, 96, new EnemyShip.Builder()
+                .withSprite(GameSettings.getInstance().getResourceLoader().getResource(ResourceLoader.ResourceId.shipGreen))
                 .withHealth(1)
                 .withSpeed(60f)
                 .build()))

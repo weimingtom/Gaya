@@ -47,14 +47,6 @@ public class GayaEntry extends Game {
 
         }
 
-//        Validator val = new Validator("Scenarios/scenario1.json");
-//        if (val.isValid()) {
-//            System.out.println("FILE IS VALID!");
-//        } else {
-//            System.out.println("INVALID FILE!");
-//        }
-
-
         GameSettings.getInstance().setResourceLoader(new ResourceLoader(ResourcesPather.defaultResourcesPather()));
         GameSettings.getInstance().getResourceLoader().load();
 

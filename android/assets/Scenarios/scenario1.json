@@ -1,31 +1,37 @@
 {
   "name": "test \"test\" test",
+  "author": "Ernestas",
   "enemies" : [
     {
       "name" : "simple",
       "health" : 2,
       "speed" : 60,
       "ai" : "float",
-      "sprite" : "enemyShip32"
+      "sprite" : "greenShip"
     }
   ],
   "waves" : [
     {
       "id" : 0,
-      "spawn" : ["simple", "MIDDLE", "0"],
-      "spawn" : ["simple", "MIDDLE - @simple", "@simple"],
-      "spawn" : ["simple", "MIDDLE + @simple", "@simple"]
+      "spawn" : [
+        ["simple", "MIDDLE", "0"],
+        ["simple", "MIDDLE - @simple * 2", "@simple * 2"],
+        ["simple", "MIDDLE + @simple * 2", "@simple * 2"]
+      ]
     },
     {
       "id" : 1,
-      "spawn" : ["simple", "MIDDLE", "0"],
-      "spawn" : ["simple", "MIDDLE - simple", "0"],
-      "spawn" : ["simple", "MIDDLE + simple", "0"],
-      "spawn" : ["simple", "MIDDLE - simple * 2.5", "simple * 1.5"],
-      "spawn" : ["simple", "MIDDLE + simple * 2.5", "simple * 1.5"]
+      "spawn" : [
+        ["simple", "MIDDLE", "0"],
+        ["simple", "MIDDLE - @simple * 2", "@simple * 2"],
+        ["simple", "MIDDLE + @simple * 2", "@simple * 2"],
+        ["simple", "MIDDLE - @simple * 4", "@simple * 3"],
+        ["simple", "MIDDLE", "@simple * 3"],
+        ["simple", "MIDDLE + @simple * 4", "@simple * 3"]
+      ],
+      "powerup" : [
+        ["firerate", "MIDDLE", "@simple * 2.5"]
+      ]
     }
-  ],
-  "power-ups" : [
-
   ]
 }

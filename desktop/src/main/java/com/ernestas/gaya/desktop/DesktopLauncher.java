@@ -6,9 +6,9 @@ import com.ernestas.gaya.GayaEntry;
 import com.ernestas.gaya.Util.Settings.Settings;
 
 public class DesktopLauncher {
-    private static final float SCALE = 1.3f;
+    private static final float SCALE = 1.4f;
     private static final String TITLE = "Gaya";
-    private static final String VERSION = "v0.6";
+    private static final String VERSION = "v0.7";
 
 	public static void main (String[] arg) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();

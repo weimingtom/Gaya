@@ -48,7 +48,7 @@ public class Wave {
             for (int i = 0; i < wave.enemyList.size(); ++i) {
                 EnemyWithOffset enemy = wave.enemyList.get(i);
                 enemy.offsetY += Settings.getInstance().getHeight();
-                enemy.offsetX += Settings.getInstance().getWidth() / 2;
+                //enemy.offsetX += Settings.getInstance().getWidth() / 2;
 
                 enemy.ship.setPosition(enemy.offsetX, enemy.offsetY);
             }

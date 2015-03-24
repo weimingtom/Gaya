@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.ernestas.gaya.Backgrounds.LoopedBackground;
+import com.ernestas.gaya.Exceptions.GayaException;
 import com.ernestas.gaya.Gameplay.Scenario;
 import com.ernestas.gaya.Gameplay.Wave;
 import com.ernestas.gaya.GayaEntry;
@@ -19,6 +20,8 @@ import com.ernestas.gaya.Ships.Ship;
 import com.ernestas.gaya.Util.Settings.GameSettings;
 import com.ernestas.gaya.Util.Settings.Settings;
 import com.ernestas.gaya.Util.Vectors.Vector2f;
+import com.ernestas.gaya.Validator.JSONToScenarioConverter;
+import com.ernestas.gaya.Validator.Validator;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -72,7 +75,14 @@ public class Level {
         paused = false;
         currentWave = Wave.EMPTY_WAVE;
         bullets.clear();
-        scenario = Scenario.getTestScenario();
+//        scenario = Scenario.getTestScenario();
+        try {
+            scenario = JSONToScenarioConverter.convertFromFile("Scenarios/scenario1.json");
+        } catch (GayaException e) {
+            e.printStackTrace();
+            scenario = Scenario.getTestScenario();
+        }
+        System.out.println("After");
     }
 
 

@@ -86,7 +86,7 @@ public class EnemyShip extends Ship {
         }
 
         float flySpeed = exploding ? -10f : speed;
-        setPosition(position.x, position.y - flySpeed * delta);
+        setPosition(position.x, position.y - flySpeed * delta * Settings.getInstance().getScale());
         if (getPosition().y + sprite.getHeight() < 0) {
             canRemove = true;
         }

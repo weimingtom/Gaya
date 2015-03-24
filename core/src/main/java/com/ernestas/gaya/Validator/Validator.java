@@ -3,12 +3,10 @@ package com.ernestas.gaya.Validator;
 import com.ernestas.gaya.Exceptions.FileHandlingException;
 import com.ernestas.gaya.Exceptions.GayaException;
 import com.ernestas.gaya.Exceptions.InvalidFileException;
+import com.google.common.base.Joiner;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Validator {
 
@@ -45,7 +43,7 @@ public class Validator {
 
     public boolean isValid() {
         try {
-            validate();
+            fileToString();
             return true;
         } catch (GayaException e) {
             return false;
@@ -54,7 +52,7 @@ public class Validator {
         }
     }
 
-    public void validate() throws GayaException {
+    public String fileToString() throws GayaException {
         File file = new File(path);
         BufferedReader reader;
         try {
@@ -88,41 +86,7 @@ public class Validator {
             }
         }
 
-        validateList(lines);
-    }
-
-
-    public void validateList(List<String> lines) {
-        String line;
-        int index = -1;
-
-        while (index < lines.size()) {
-            index++;
-            line = lines.get(index);
-
-            if (line.charAt(0) == '#') {
-                // Comment
-                continue;
-            }
-            if (line.isEmpty()) {
-                continue;
-            }
-
-
-            String[] splitLine = line.split("=");
-
-            if (splitLine.length > 1) {
-                // VARIABLE = VALUE
-
-
-            } else {
-                // KEY .........
-
-            }
-
-
-        }
-
+        return Joiner.on("").skipNulls().join(lines);
     }
 
 }

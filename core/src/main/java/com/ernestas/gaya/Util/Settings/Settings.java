@@ -22,10 +22,10 @@ public class Settings {
     /********************************************************/
 
 
-    private int width;
-    private int height;
-    private float scale;
-    private int frameRate;
+    private int width = DEFAULT_WIDTH;
+    private int height = DEFAULT_HEIGHT;
+    private float scale = 1f;
+    private int frameRate = 60;
 
     public int getWidth() {
         return width;

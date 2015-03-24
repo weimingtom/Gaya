@@ -7,9 +7,11 @@ public class ResourcesPather {
     public String background;
     public String cloud;
 
-    // Ships
+    // Player Ship
     public String shipPlayer;
-    public String shipEnemy;
+
+    // Enemy Ship
+    public String shipGreen;
 
     public String simpleBullet;
 
@@ -25,11 +27,17 @@ public class ResourcesPather {
         ResourcesPather resourcesPather = new ResourcesPather();
         String defaultPath = "Sprites/";
 
+        return defaultResourcesPather(defaultPath);
+    }
+
+    public static ResourcesPather defaultResourcesPather(String defaultPath) {
+        ResourcesPather resourcesPather = new ResourcesPather();
+
         resourcesPather.splash = defaultPath + "splash.png";
         resourcesPather.background = defaultPath + "desert-background-looped.png";
         resourcesPather.cloud = defaultPath + "clouds-transparent.png";
         resourcesPather.shipPlayer = defaultPath + "spaceship32.png";
-        resourcesPather.shipEnemy = defaultPath + "enemyShip32.png";
+        resourcesPather.shipGreen = defaultPath + "greenShip.png";
         resourcesPather.explosionSS = defaultPath + "explosionSS.png";
         resourcesPather.simpleBullet = defaultPath + "bullets/simpleBullet.png";
 

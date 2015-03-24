@@ -27,7 +27,8 @@ public abstract class Bullet {
 
     public void update(float delta) {
         Vector2f currentPos = getPosition();
-        Vector2f newPos = new Vector2f(currentPos.x + vector.x * speed * delta, currentPos.y + vector.y * speed * delta);
+        Vector2f newPos = new Vector2f(currentPos.x + vector.x * speed * delta * Settings.getInstance().getScale(),
+                                    currentPos.y + vector.y * speed * delta * Settings.getInstance().getScale());
 
         sprite.setPosition(newPos.x, newPos.y);
     }

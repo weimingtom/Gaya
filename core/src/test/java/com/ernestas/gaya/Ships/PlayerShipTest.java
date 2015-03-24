@@ -11,7 +11,7 @@ public class PlayerShipTest {
 
     @Test
     public void testShip() {
-        PlayerShip player = new PlayerShip(new Vector2f(100f, 50f));
+        PlayerShip player = new PlayerShip(null, new Vector2f(100f, 50f));
 
         assertThat(player.getPosition().x, is(100f));
         assertThat(player.getPosition().y, is(50f));

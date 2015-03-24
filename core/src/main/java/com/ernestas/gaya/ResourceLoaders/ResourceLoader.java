@@ -1,16 +1,22 @@
 package com.ernestas.gaya.ResourceLoaders;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.ernestas.gaya.Util.Settings.Settings;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class ResourceLoader {
 
     public enum ResourceId {
-        splash, background, cloud, shipPlayer, shipEnemy, explosionSS, simpleBullet
+        splash,
+        background, cloud,
+        shipPlayer, shipGreen,
+        simpleBullet,
+        explosionSS 
     }
 
     ResourcesPather pather;
@@ -32,7 +38,7 @@ public class ResourceLoader {
             loadResource(ResourceId.background, pather.background);
             loadResource(ResourceId.cloud, pather.cloud);
             loadResource(ResourceId.shipPlayer, pather.shipPlayer);
-            loadResource(ResourceId.shipEnemy, pather.shipEnemy);
+            loadResource(ResourceId.shipGreen, pather.shipGreen);
             loadResource(ResourceId.explosionSS, pather.explosionSS, false);
             loadResource(ResourceId.simpleBullet, pather.simpleBullet);
 
@@ -64,6 +70,15 @@ public class ResourceLoader {
 
         Sprite sprite = spriteMap.get(id);
         return new Sprite(sprite);
+    }
+
+    public static ResourceId resourceIdFromName(String resourceName) {
+
+        if (resourceName.equalsIgnoreCase("greenShip")) {
+            return ResourceId.shipGreen;
+        }
+
+        return null;
     }
 
 }

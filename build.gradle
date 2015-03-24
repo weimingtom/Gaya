@@ -41,6 +41,8 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
+        compile "org.json:json:20090211"
+        compile "com.google.guava:guava:11.0.2"
     }
 }
 
@@ -63,6 +65,8 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi-v7a"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-x86"
+        compile "com.google.guava:guava:11.0.2"
+        compile "org.json:json:20090211"
     }
 }
 
@@ -74,6 +78,8 @@ project(":core") {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        compile "org.json:json:20090211"
+        compile "com.google.guava:guava:11.0.2"
         testCompile "junit:junit:+"
     }
 }

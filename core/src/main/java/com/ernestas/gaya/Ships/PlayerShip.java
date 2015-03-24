@@ -90,8 +90,8 @@ public class PlayerShip extends Ship {
     }
 
     private void move(float vecX, float vecY, float delta) {
-        float x = getPosition().x + vecX * speed * delta;
-        float y = getPosition().y + vecY * speed * delta;
+        float x = getPosition().x + vecX * speed * delta * Settings.getInstance().getScale();
+        float y = getPosition().y + vecY * speed * delta * Settings.getInstance().getScale();
 
         float boX = bounds.width / 2;
         float boY = bounds.height / 2;
